@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PaperTrader } from 'paper-trader';
+// import { PaperTrader } from 'paper-trader';
 import { PaperTraderDto } from './papertraders.dto';
 
 // interface IAdvisorDataItem {
@@ -13,89 +13,74 @@ import { PaperTraderDto } from './papertraders.dto';
 //   indicator: (key: string) => number[];
 // }
 
-interface IStrategyDataItem {
-  time: string;
-  indicators: Array<{
-    key: string;
-    name: string;
-    options: number[];
-    outputs: number[];
-  }>;
-  indicator: (key: string) => number[];
-}
+// interface IStrategyDataItem {
+//   time: string;
+//   indicators: Array<{
+//     key: string;
+//     name: string;
+//     options: number[];
+//     outputs: number[];
+//   }>;
+//   indicator: (key: string) => number[];
+// }
 
 @Injectable()
 export class PaperTradersService {
-  paperTraders: Array<{
-    id: string;
-    instance: PaperTrader;
-    trades: Array<{
-      time: string;
-      side: string;
-      price: number;
-      quantity: number;
-      amount: number;
-    }>;
-  }> = [];
+  paperTraders: PaperTraderDto[] = [];
 
-  getPaperTraders() {
+  get(): PaperTraderDto[] {
     return this.paperTraders;
   }
 
+  getOne(id: string): PaperTraderDto {
+    return this.paperTraders.find(e => e.id === id);
+  }
+
   createPaperTrader(data?: PaperTraderDto) {
-    const {
-      id,
-      currencyAvailable,
-      assetAvailable,
-      exchange,
-      currency,
-      asset,
-      period,
-      indicatorInputs,
-      warmup,
-      strategy,
-    } = data;
+    // const {
+    //   id,
+    //   currencyAvailable,
+    //   assetAvailable,
+    //   exchange,
+    //   currency,
+    //   asset,
+    //   period,
+    //   indicatorInputs,
+    //   warmup,
+    //   strategy,
+    // } = data;
 
-    const strategyFunction = new Function('data', strategy) as (
-      data: IStrategyDataItem[],
-    ) => string;
+    // const strategyFunction = new Function('data', strategy) as (
+    //   data: IStrategyDataItem[],
+    // ) => string;
 
-    const instance = new PaperTrader({
-      currencyAvailable,
-      assetAvailable,
-      exchange,
-      currency,
-      asset,
-      period,
-      indicatorInputs,
-      warmup,
-      strategy: strategyFunction,
-    });
+    // const instance = new PaperTrader({
+    //   currencyAvailable,
+    //   assetAvailable,
+    //   exchange,
+    //   currency,
+    //   asset,
+    //   period,
+    //   indicatorInputs,
+    //   warmup,
+    //   strategy: strategyFunction,
+    // });
 
-    this.paperTraders = [
-      ...this.paperTraders,
-      {
-        ...{
-          id,
-          instance,
-          trades: [],
-        },
-      },
-    ];
+    this.paperTraders.push(data);
   }
 
   startPaperTrader(id: string) {
-    const paperTrader = this.paperTraders.find(e => e.id === id);
-    const { instance, trades } = paperTrader;
-    instance.onTrade(trade => {
-      paperTrader.trades = [
-        ...trades,
-        {
-          ...trade,
-        },
-      ];
-    });
-    instance.start();
+    // const paperTrader = this.paperTraders.find(e => e.id === id);
+    // const { instance, trades } = paperTrader;
+    // instance.onTrade(trade => {
+    //   paperTrader.trades = [
+    //     ...trades,
+    //     {
+    //       ...trade,
+    //     },
+    //   ];
+    // });
+    // instance.start();
   }
 
   deletePaperTrader(id) {

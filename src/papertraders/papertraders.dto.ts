@@ -7,10 +7,17 @@ export interface PaperTraderDto {
   asset?: string;
   period?: number;
   indicatorInputs?: Array<{
-      key: string;
-      name: string;
-      options: number[];
+    key: string;
+    name: string;
+    options: number[];
   }>;
   warmup?: number;
   strategy?: string;
+  trades?: Array<{
+    time: string;
+    side: string;
+    price: number;
+    quantity: number;
+    amount: number;
+  }>;
 }

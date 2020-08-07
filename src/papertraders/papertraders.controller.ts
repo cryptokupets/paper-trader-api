@@ -8,15 +8,14 @@ export class PaperTradersController {
 
   @Get()
   getPaperTraders() {
-    return this.paperTradersService.getPaperTraders();
+    return this.paperTradersService.get();
   }
 
   @Get(':id')
   getProduct(@Param() params) {
     console.log('get a single paper trader', params.id);
     return this.paperTradersService
-      .getPaperTraders()
-      .filter(p => p.id == params.id);
+      .getOne(params.id);
   }
 
   @Post()
